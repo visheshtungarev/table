@@ -1,25 +1,103 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import 'antd/dist/antd.css';
+import { Table } from 'antd';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    filters: [
+      {
+        text: 'Joe',
+        value: 'Joe',
+      },
+      {
+        text: 'Category 1',
+        value: 'Category 1',
+        children: [
+          {
+            text: 'Yellow',
+            value: 'Yellow',
+          },
+          {
+            text: 'Pink',
+            value: 'Pink',
+          },
+        ],
+      },
+      {
+        text: 'Category 2',
+        value: 'Category 2',
+        children: [
+          {
+            text: 'Green',
+            value: 'Green',
+          },
+          {
+            text: 'Black',
+            value: 'Black',
+          },
+        ],
+      },
+    ],
+    filterMode: 'tree',
+    filterSearch: true,
+    onFilter: (value, record) => record.name.includes(value),
+    width: '30%',
+  },
+  {
+    title: 'Age',
+    dataIndex: 'age',
+    sorter: (a, b) => a.age - b.age,
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+    filters: [
+      {
+        text: 'London',
+        value: 'London',
+      },
+      {
+        text: 'New York',
+        value: 'New York',
+      },
+    ],
+    onFilter: (value, record) => record.address.startsWith(value),
+    filterSearch: true,
+    width: '40%',
+  },
+];
+
+const data = [
+  {
+    key: '1',
+    name: 'John Brown',
+    age: 32,
+    address: 'New York No. 1 Lake Park',
+  },
+  {
+    key: '2',
+    name: 'Jim Green',
+    age: 42,
+    address: 'London No. 1 Lake Park',
+  },
+  {
+    key: '3',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+  },
+  {
+    key: '4',
+    name: 'Jim Red',
+    age: 32,
+    address: 'London No. 2 Lake Park',
+  },
+];
+
+function onChange(pagination, filters, sorter, extra) {
+  console.log('params', pagination, filters, sorter, extra);
 }
 
-export default App;
+export default () => <Table columns={columns} dataSource={data} onChange={onChange} />;
